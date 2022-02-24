@@ -1,0 +1,155 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  background: rgb(48, 48, 48);
+  color: #fff;
+  height: 100vh;
+}
+
+:focus {
+  outline: none;
+}
+
+::placeholder {
+  font-size: 30px;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 700px;
+  max-width: 75vw;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-weight: 300;
+  margin: 40px 0;
+}
+
+/* Form */
+.form {
+  display: flex;
+  width: 100%;
+}
+
+.toggle-all {
+  padding: 10px;
+  border: none;
+  border-radius: 5px 0 0 0;
+  background: rgb(194, 194, 194);
+  transition: 0.2s all;
+  cursor: pointer;
+}
+
+.toggle-all:hover {
+  color: #fff;
+  background: rgb(10, 161, 55);
+}
+
+.form-input {
+  height: 60px;
+  width: 100%;
+  padding: 7px 30px 7px 16px;
+  border: none;
+  border-radius: 0 5px 0px 0;
+  font-size: 30px;
+}
+
+/* Todo */
+
+.todo {
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  width: 100%;
+  background: rgb(218, 218, 218);
+  color: #000;
+  font-size: 23px;
+  border-bottom: 1px rgb(170, 160, 160) solid;
+  transition: 0.4s linear;
+
+  &-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-text {
+    max-width: 80%;
+    padding-left: 20px;
+  }
+
+  &:hover {
+    .delete {
+      display: inline;
+    }
+  }
+  &:last-child {
+    border-bottom: 0;
+    border-radius: 0 0 5px 5px;
+  }
+}
+
+.toggle-completed {
+  position: relative;
+  margin: 0 28px;
+  background: none;
+  border-radius: 50%;
+  appearance: none;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px rgb(179, 179, 179) solid;
+  }
+  &:checked {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 10px;
+      width: 20px;
+      transform: translate(-50%, -70%) rotate(130deg);
+      border: 1px rgb(10, 161, 55) solid;
+      border-bottom: none;
+      border-left: none;
+    }
+    &::before {
+      border: 1px rgb(138, 137, 137) solid;
+    }
+  }
+}
+
+.delete {
+  display: none;
+  margin-right: 18px;
+  font-size: 22px;
+  line-height: 22px;
+  background: none;
+  border: none;
+  color: #9b0909;
+
+  transition: 0.4s all;
+  &:hover {
+    color: red;
+  }
+}
+
+.done {
+  opacity: 0.8;
+}
