@@ -2,16 +2,23 @@ import React from "react";
 import Todo from "./Todo";
 
 export const TodoList = ({
-  todos,
   onDelete,
-  setTodos,
+  filteredTodos,
+  onComplete,
   setInputText,
-  inputText,
 }) => {
   return (
     <>
-      {todos.map((todo) => (
-        <Todo onDelete={onDelete} todo={todo} value={todo.text} />
+      {filteredTodos.map((todo) => (
+        <Todo
+          key={todo.id}
+          id={todo.id}
+          completed={todo.completed}
+          value={todo.text}
+          onDelete={onDelete}
+          onComplete={() => onComplete(todo.id)}
+          setInputText={setInputText}
+        />
       ))}
     </>
   );

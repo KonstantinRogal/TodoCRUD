@@ -1,32 +1,71 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-export const Todo = ({ onDelete, todos, todo, value, setTodos }) => {
-  const completedHandler = () => {
-    setTodos(
-      todos.map((item) => {
-        if (item.id === todo.id) {
-          return {
-            ...item,
-            completed: !item.completed,
-          };
-        }
-        return item;
-      })
-    );
+export const Todo = ({
+  onDelete,
+  completed,
+  onComplete,
+  value,
+  id,
+  setInputText,
+}) => {
+  const [editable, setEditabe] = useState(false);
+  const [todoText, setTodoText] = useState(value);
+  const ref = useRef(null);
+
+  const todoTextHandler = (e) => {
+    setTodoText(e.target.value);
+  };
+
+  useEffect(() => {
+    if (ref.current !== null && editable === true) {
+      ref.current.focus();
+    }
+  }, [editable]);
+
+  const doubleClickHandler = (e) => {
+    setEditabe(true);
+  };
+
+  const onBlurHandler = () => {
+    setEditabe(false);
+  };
+
+  const keyPressHandler = (e) => {
+    if (e.key === "Enter" && editable) {
+      setEditabe(false);
+    }
   };
 
   return (
-    <div className="todo">
+    <div className={"todo"}>
       <input
-        onClick={completedHandler}
-        className={
-          todo.completed ? "toggle-completed done" : "toggle-completed"
-        }
+        onClick={onComplete}
+        className={`toggle-completed`}
         type="checkbox"
+        checked={completed}
+        onClick={onComplete}
+        readOnly
       />
       <div className="todo-container">
-        <div className="todo-text">{value}</div>
-        <button onClick={() => onDelete(todo.id)} className="delete">
+        {editable ? (
+          <input
+            ref={ref}
+            onChange={todoTextHandler}
+            value={todoText}
+            onKeyDown={keyPressHandler}
+            onBlur={onBlurHandler}
+            className={`todo-text ${completed ? "completed" : ""}`}
+          />
+        ) : (
+          <div
+            onDoubleClick={doubleClickHandler}
+            className={`todo-text ${completed ? "completed" : ""}`}
+          >
+            {todoText}
+          </div>
+        )}
+
+        <button onClick={() => onDelete(id)} className="delete">
           X
         </button>
       </div>
