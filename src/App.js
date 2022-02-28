@@ -3,10 +3,16 @@ import "./App.scss";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
 
+const TodoStatus = {
+  ALL: "ALL",
+  COMPLETED: "COMPLETED",
+  ACTIVE: "ACTIVE",
+};
+
 function App() {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
-  const [status, setStatus] = useState("all");
+  const [status, setStatus] = useState(TodoStatus.ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
 
   useEffect(() => {
@@ -20,10 +26,10 @@ function App() {
 
   const filterHandler = () => {
     switch (status) {
-      case "completed":
+      case TodoStatus.COMPLETED:
         setFilteredTodos(() => todos.filter((todo) => todo.completed === true));
         break;
-      case "active":
+      case TodoStatus.ACTIVE:
         setFilteredTodos(() =>
           todos.filter((todo) => todo.completed === false)
         );
@@ -94,6 +100,7 @@ function App() {
         setStatus={setStatus}
         setCheckAll={checkAllHandler}
         clearCompletedHandler={clearCompletedHandler}
+        TodoStatus={TodoStatus}
       />
 
       <TodoList
@@ -104,7 +111,6 @@ function App() {
         setInputText={setInputText}
         filteredTodos={filteredTodos}
         onComplete={completedHandler}
-        // onEdit={editHandler}
       />
     </div>
   );

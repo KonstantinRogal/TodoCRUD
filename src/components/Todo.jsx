@@ -1,13 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const Todo = ({
-  onDelete,
-  completed,
-  onComplete,
-  value,
-  id,
-  setInputText,
-}) => {
+export const Todo = ({ onDelete, completed, onComplete, value, id }) => {
   const [editable, setEditabe] = useState(false);
   const [todoText, setTodoText] = useState(value);
   const ref = useRef(null);
@@ -43,7 +36,6 @@ export const Todo = ({
         className={`toggle-completed`}
         type="checkbox"
         checked={completed}
-        onClick={onComplete}
         readOnly
       />
       <div className="todo-container">

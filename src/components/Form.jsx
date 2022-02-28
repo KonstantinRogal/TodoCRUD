@@ -5,21 +5,18 @@ export const Form = ({
   setInputText,
   todos,
   setTodos,
-  filterHandler,
   setStatus,
   status,
   setCheckAll,
   clearCompletedHandler,
+  TodoStatus,
 }) => {
   const inputTextHandler = (e) => {
     setInputText(e.target.value);
   };
 
   const submitTodoHandler = (e) => {
-    setTodos([
-      ...todos,
-      { text: inputText, completed: false, id: Math.random().toString(36) },
-    ]);
+    setTodos([...todos, { text: inputText, completed: false, id: Date.now() }]);
     setInputText("");
   };
 
@@ -56,21 +53,25 @@ export const Form = ({
           <div className="todos-left">{leftItems.length} items left</div>
           <div onClick={statusHandler} className="filter-buttons">
             <button
-              value={"all"}
-              className={`filter-button ${status === "all" ? "active" : ""}`}
+              value={TodoStatus.ALL}
+              className={`filter-button ${
+                status === TodoStatus.ALL ? TodoStatus.ACTIVE : ""
+              }`}
             >
               All
             </button>
             <button
-              value={"active"}
-              className={`filter-button ${status === "active" ? "active" : ""}`}
+              value={TodoStatus.ACTIVE}
+              className={`filter-button ${
+                status === TodoStatus.ACTIVE ? TodoStatus.ACTIVE : ""
+              }`}
             >
               Active
             </button>
             <button
-              value={"completed"}
+              value={TodoStatus.COMPLETED}
               className={`filter-button ${
-                status === "completed" ? "active" : ""
+                status === TodoStatus.COMPLETED ? TodoStatus.ACTIVE : ""
               }`}
             >
               Completed

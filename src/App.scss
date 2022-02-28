@@ -101,9 +101,11 @@ h1 {
   background: none;
   color: #fff;
   border: none;
+  transition: 0.1s linear;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
+    color: #9b0909;
   }
 }
 
@@ -136,6 +138,7 @@ h1 {
     border: none;
     font-family: "Times New Roman", sans-serif;
     font-size: 16px;
+    overflow: hidden;
     cursor: default;
   }
 
@@ -174,6 +177,7 @@ input.todo-text {
     border-radius: 50%;
     border: 1px rgb(179, 179, 179) solid;
   }
+
   &:checked {
     &::after {
       content: "";
@@ -212,4 +216,33 @@ input.todo-text {
   opacity: 0.4;
 }
 
-// Filter
+// Media
+@media screen and (max-width: 550px) {
+  .todo-text {
+    max-width: 65%;
+  }
+
+  .todos-left {
+    font-size: 10px;
+  }
+
+  ::placeholder {
+    font-size: 20px;
+  }
+
+  .filter {
+    padding: 5px;
+    &-buttons {
+      display: flex;
+    }
+    &-button {
+      font-size: 10px;
+      padding: 3px;
+      margin: 0 2px;
+    }
+  }
+
+  .clear-completed {
+    font-size: 10px;
+  }
+}
