@@ -33,6 +33,8 @@ export const Form = ({
     setStatus(e.target.value);
   };
 
+  let leftItems = todos.filter((item) => item.completed !== true);
+
   return (
     <div className="form">
       <div className="form-wrapper">
@@ -51,7 +53,7 @@ export const Form = ({
 
       {todos.length ? (
         <div className="filter">
-          <div className="todos-left">{todos.length} items left</div>
+          <div className="todos-left">{leftItems.length} items left</div>
           <div onClick={statusHandler} className="filter-buttons">
             <button
               value={"all"}
