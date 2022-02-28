@@ -50,7 +50,7 @@ h1 {
   border: none;
   border-radius: 5px 0 0 0;
   background: rgb(194, 194, 194);
-  transition: 0.2s all;
+  transition: 0.2s linear;
   cursor: pointer;
   &:hover {
     color: #fff;
@@ -118,7 +118,7 @@ h1 {
   color: #000;
   font-size: 23px;
   border-bottom: 1px rgb(170, 160, 160) solid;
-  transition: 0.4s linear;
+  // transition: 0.2s linear;
 
   &-container {
     width: 100%;

@@ -9,6 +9,7 @@ export const Form = ({
   setStatus,
   status,
   setCheckAll,
+  clearCompletedHandler,
 }) => {
   const inputTextHandler = (e) => {
     setInputText(e.target.value);
@@ -73,7 +74,9 @@ export const Form = ({
               Completed
             </button>
           </div>
-          <button className="clear-completed">Clear completed</button>
+          <button onClick={clearCompletedHandler} className="clear-completed">
+            Clear completed
+          </button>
         </div>
       ) : null}
     </div>

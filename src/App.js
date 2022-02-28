@@ -47,35 +47,19 @@ function App() {
     );
   };
 
-  const checkAllHandler = (id) => {
-    const newTodos = todos.map((item) => {
-      if (item.completed === false) {
-        item.completed = true;
-      }
+  const checkAllHandler = () => {
+    let allCompleted = todos.every((item) => item.completed);
 
-      return item;
+    const newTodos = todos.map((item) => {
+      return { ...item, completed: !allCompleted };
     });
 
     setTodos(newTodos);
   };
 
-  // const checkAllHandler2 = (id) => {
-  //   const newTodos = todos.map((item) => {
-  //     for (let compl in item) {
-  //       if (item.completed === false) {
-  //         item.completed = true;
-  //       }
-  //     }
-
-  //     return item;
-  //   });
-
-  //   setTodos(newTodos);
-
-  //   // пробегаюсь по значениям, ищя фалсе
-  //   // если нашел то в туду листе ставлю тру для каждого элемента
-  //   // иначе тоже самое только фолс
-  // };
+  const clearCompletedHandler = () => {
+    setTodos(todos.filter((el) => el.completed === false));
+  };
 
   return (
     <div className="App">
@@ -88,7 +72,8 @@ function App() {
         filterHandler={filterHandler}
         status={status}
         setStatus={setStatus}
-        setCheckAll={checkAllHandler2}
+        setCheckAll={checkAllHandler}
+        clearCompletedHandler={clearCompletedHandler}
       />
 
       <TodoList
