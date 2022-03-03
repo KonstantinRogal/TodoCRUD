@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.scss";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
+import { fetchTodos, removeTodo } from "./action/todoRequest.js";
 
 const TodoStatus = {
   ALL: "ALL",
@@ -16,15 +17,15 @@ function App() {
   const [filteredTodos, setFilteredTodos] = useState([]);
 
   useEffect(() => {
-    getLocalTodos();
+    getTodos();
   }, []);
 
   useEffect(() => {
     filterHandler();
-    saveLocalTodos();
   }, [todos, status]);
 
   const filterHandler = () => {
+    console.log(1111);
     switch (status) {
       case TodoStatus.COMPLETED:
         setFilteredTodos(() => todos.filter((todo) => todo.completed === true));
@@ -41,7 +42,9 @@ function App() {
   };
 
   const todoDeleteHandler = (id) => {
-    setTodos(todos.filter((el) => el.id !== id));
+    removeTodo(id);
+    getTodos();
+    console.log(todos, id, "IDDDDDDDDDDD");
   };
 
   const completedHandler = (id) => {
@@ -72,19 +75,8 @@ function App() {
     setTodos(todos.filter((el) => el.completed === false));
   };
 
-  const saveLocalTodos = () => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  };
-
-  const getLocalTodos = () => {
-    if (localStorage.getItem("todos") === null) {
-      localStorage.setItem("todos", JSON.stringify([]));
-    } else {
-      let todoLocal = JSON.parse(
-        localStorage.getItem("todos", JSON.stringify(todos))
-      );
-      setTodos(todoLocal);
-    }
+  const getTodos = () => {
+    fetchTodos.then((todos) => setTodos(todos));
   };
 
   return (

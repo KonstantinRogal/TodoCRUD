@@ -14,7 +14,7 @@ export const TodoList = ({
           key={todo.id}
           id={todo.id}
           completed={todo.completed}
-          value={todo.text}
+          title={todo.title}
           onDelete={onDelete}
           onComplete={() => onComplete(todo.id)}
           setInputText={setInputText}

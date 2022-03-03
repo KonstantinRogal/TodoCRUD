@@ -1,4 +1,5 @@
 import React from "react";
+import { addTodo } from "../action/todoRequest.js";
 
 export const Form = ({
   inputText,
@@ -16,8 +17,12 @@ export const Form = ({
   };
 
   const submitTodoHandler = (e) => {
-    setTodos([...todos, { text: inputText, completed: false, id: Date.now() }]);
+    const newTodo = { title: inputText, isDone: false, id: Date.now() };
+
+    setTodos([...todos, newTodo]);
     setInputText("");
+
+    addTodo(newTodo.title);
   };
 
   const handleKeyPress = (e) => {
@@ -30,7 +35,7 @@ export const Form = ({
     setStatus(e.target.value);
   };
 
-  let leftItems = todos.filter((item) => item.completed !== true);
+  let leftItems = todos.filter((item) => item.isDone !== true);
 
   return (
     <div className="form">

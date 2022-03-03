@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const Todo = ({ onDelete, completed, onComplete, value, id }) => {
+export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
   const [editable, setEditabe] = useState(false);
-  const [todoText, setTodoText] = useState(value);
+  const [todoText, setTodoText] = useState(title);
   const ref = useRef(null);
 
   const todoTextHandler = (e) => {
