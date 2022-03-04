@@ -60,7 +60,7 @@ export const Form = ({
             <button
               value={TodoStatus.ALL}
               className={`filter-button ${
-                status === TodoStatus.ALL ? TodoStatus.ACTIVE : ""
+                status === TodoStatus.ALL ? "active" : ""
               }`}
             >
               All
@@ -68,15 +68,15 @@ export const Form = ({
             <button
               value={TodoStatus.ACTIVE}
               className={`filter-button ${
-                status === TodoStatus.ACTIVE ? TodoStatus.ACTIVE : ""
+                status === TodoStatus.ACTIVE ? "active" : ""
               }`}
             >
               Active
             </button>
             <button
-              value={TodoStatus.COMPLETED}
+              value={TodoStatus.IS_DONE}
               className={`filter-button ${
-                status === TodoStatus.COMPLETED ? TodoStatus.ACTIVE : ""
+                status === TodoStatus.IS_DONE ? "active" : ""
               }`}
             >
               Completed

@@ -2,11 +2,16 @@ import { useState, useEffect } from "react";
 import "./App.scss";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
-import { fetchTodos, removeTodo } from "./action/todoRequest.js";
+import {
+  fetchTodos,
+  removeTodo,
+  updateStatusTodo,
+  deleteDone,
+} from "./action/todoRequest.js";
 
 const TodoStatus = {
   ALL: "ALL",
-  COMPLETED: "COMPLETED",
+  IS_DONE: "IS_DONE",
   ACTIVE: "ACTIVE",
 };
 
@@ -25,15 +30,12 @@ function App() {
   }, [todos, status]);
 
   const filterHandler = () => {
-    console.log(1111);
     switch (status) {
-      case TodoStatus.COMPLETED:
-        setFilteredTodos(() => todos.filter((todo) => todo.completed === true));
+      case TodoStatus.IS_DONE:
+        setFilteredTodos(() => todos.filter((todo) => todo.isDone === true));
         break;
       case TodoStatus.ACTIVE:
-        setFilteredTodos(() =>
-          todos.filter((todo) => todo.completed === false)
-        );
+        setFilteredTodos(() => todos.filter((todo) => todo.isDone === false));
         break;
 
       default:
@@ -48,35 +50,40 @@ function App() {
   };
 
   const completedHandler = (id) => {
-    setTodos((prevState) =>
-      prevState.map((item) => {
+    setTodos((prevState) => {
+      updateStatusTodo(id);
+      return prevState.map((item) => {
         if (item.id === id) {
           return {
             ...item,
-            completed: !item.completed,
+            isDone: !item.isDone,
           };
         }
         return item;
-      })
-    );
+      });
+    });
   };
 
   const checkAllHandler = () => {
-    let allCompleted = todos.every((item) => item.completed);
+    let allCompleted = todos.every((item) => item.isDone);
 
     const newTodos = todos.map((item) => {
-      return { ...item, completed: !allCompleted };
+      updateStatusTodo(item.id);
+      return { ...item, isDone: !allCompleted };
     });
 
     setTodos(newTodos);
   };
 
   const clearCompletedHandler = () => {
-    setTodos(todos.filter((el) => el.completed === false));
+    deleteDone();
+    setTodos(todos.filter((el) => el.isDone === false));
   };
 
   const getTodos = () => {
-    fetchTodos.then((todos) => setTodos(todos));
+    fetchTodos.then((todos) => {
+      return setTodos(todos);
+    });
   };
 
   return (

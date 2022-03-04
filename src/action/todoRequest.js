@@ -17,6 +17,9 @@ export const fetchTodos = fetch(`${API_URL}/api/v1/todos`, {
 
       return { id: _id, ...restProps };
     });
+  })
+  .catch((err) => {
+    console.log(new Error(err));
   });
 
 export const addTodo = (title) =>
@@ -28,9 +31,13 @@ export const addTodo = (title) =>
     },
     method: "POST",
     body: JSON.stringify({ title }),
-  }).then(function (data) {
-    return data.json();
-  });
+  })
+    .then(function (data) {
+      return data.json();
+    })
+    .catch((err) => {
+      console.log(new Error(err));
+    });
 
 export const removeTodo = (id) =>
   fetch(`${API_URL}/api/v1/todos/${id}`, {
@@ -40,11 +47,15 @@ export const removeTodo = (id) =>
       apikey: API_KEY,
     },
     method: "DELETE",
-  }).then(function (data) {
-    return data.json();
-  });
+  })
+    .then(function (data) {
+      return data.json();
+    })
+    .catch((err) => {
+      console.log(new Error(err));
+    });
 
-export const updateTodo = (id, title) =>
+export const updateTodo = (id, title) => {
   fetch(`${API_URL}/api/v1/todos/${id}/title`, {
     headers: {
       "Content-type": "application/json",
@@ -52,9 +63,38 @@ export const updateTodo = (id, title) =>
       apikey: API_KEY,
     },
     method: "PUT",
-    body: {
-      title: title,
+    body: JSON.stringify({ title }),
+  })
+    .then(function (data) {
+      return data.json();
+    })
+    .catch((err) => {
+      console.log(new Error(err));
+    });
+};
+
+export const updateStatusTodo = (id) => {
+  fetch(`${API_URL}/api/v1/todos/${id}/done`, {
+    headers: {
+      "Content-type": "application/json",
+      charset: "UTF-8",
+      apikey: API_KEY,
     },
-  }).then(function (data) {
-    return data.json();
+    method: "PUT",
+  }).catch((err) => {
+    console.log(new Error(err));
   });
+};
+
+export const deleteDone = () => {
+  fetch(`${API_URL}/api/v1/todos/clear-done`, {
+    headers: {
+      "Content-type": "application/json",
+      charset: "UTF-8",
+      apikey: API_KEY,
+    },
+    method: "DELETE",
+  }).catch((err) => {
+    console.log(new Error(err));
+  });
+};

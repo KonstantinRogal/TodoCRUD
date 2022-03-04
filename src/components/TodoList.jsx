@@ -13,7 +13,7 @@ export const TodoList = ({
         <Todo
           key={todo.id}
           id={todo.id}
-          completed={todo.completed}
+          isDone={todo.isDone}
           title={todo.title}
           onDelete={onDelete}
           onComplete={() => onComplete(todo.id)}

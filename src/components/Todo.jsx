@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { updateTodo } from "../action/todoRequest.js";
 
-export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
+export const Todo = ({ onDelete, isDone, onComplete, title, id }) => {
   const [editable, setEditabe] = useState(false);
   const [todoText, setTodoText] = useState(title);
   const ref = useRef(null);
@@ -20,16 +20,15 @@ export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
     setEditabe(true);
   };
 
-  const updateHandler = (id, title) => {
-    updateTodo((id, title) => {
-      setTodoText(title);
-    });
+  const updateHandler = () => {
     setEditabe(false);
+    updateTodo(id, todoText);
   };
 
   const keyPressHandler = (e) => {
     if (e.key === "Enter" && editable) {
       setEditabe(false);
+      updateTodo(id, todoText);
     }
   };
 
@@ -39,7 +38,7 @@ export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
         onClick={onComplete}
         className={`toggle-completed`}
         type="checkbox"
-        checked={completed}
+        checked={isDone}
         readOnly
       />
       <div className="todo-container">
@@ -50,12 +49,12 @@ export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
             value={todoText}
             onKeyDown={keyPressHandler}
             onBlur={updateHandler}
-            className={`todo-text ${completed ? "completed" : ""}`}
+            className={`todo-text ${isDone ? "completed" : ""}`}
           />
         ) : (
           <div
             onDoubleClick={doubleClickHandler}
-            className={`todo-text ${completed ? "completed" : ""}`}
+            className={`todo-text ${isDone ? "completed" : ""}`}
           >
             {todoText}
           </div>
