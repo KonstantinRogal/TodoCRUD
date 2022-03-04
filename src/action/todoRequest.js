@@ -40,10 +40,21 @@ export const removeTodo = (id) =>
       apikey: API_KEY,
     },
     method: "DELETE",
-  })
-    .then(function (data) {
-      return data.json();
-    })
-    .then(function (data2) {
-      console.log(data2, "2222222222222222222");
-    });
+  }).then(function (data) {
+    return data.json();
+  });
+
+export const updateTodo = (id, title) =>
+  fetch(`${API_URL}/api/v1/todos/${id}/title`, {
+    headers: {
+      "Content-type": "application/json",
+      charset: "UTF-8",
+      apikey: API_KEY,
+    },
+    method: "PUT",
+    body: {
+      title: title,
+    },
+  }).then(function (data) {
+    return data.json();
+  });

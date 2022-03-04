@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { updateTodo } from "../action/todoRequest.js";
 
 export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
   const [editable, setEditabe] = useState(false);
@@ -19,7 +20,10 @@ export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
     setEditabe(true);
   };
 
-  const onBlurHandler = () => {
+  const updateHandler = (id, title) => {
+    updateTodo((id, title) => {
+      setTodoText(title);
+    });
     setEditabe(false);
   };
 
@@ -45,7 +49,7 @@ export const Todo = ({ onDelete, completed, onComplete, title, id }) => {
             onChange={todoTextHandler}
             value={todoText}
             onKeyDown={keyPressHandler}
-            onBlur={onBlurHandler}
+            onBlur={updateHandler}
             className={`todo-text ${completed ? "completed" : ""}`}
           />
         ) : (

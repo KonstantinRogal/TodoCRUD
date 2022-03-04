@@ -42,9 +42,9 @@ function App() {
   };
 
   const todoDeleteHandler = (id) => {
-    removeTodo(id);
-    getTodos();
-    console.log(todos, id, "IDDDDDDDDDDD");
+    removeTodo(id).then((i) =>
+      setTodos(() => todos.filter((todo) => todo.id !== id))
+    );
   };
 
   const completedHandler = (id) => {
