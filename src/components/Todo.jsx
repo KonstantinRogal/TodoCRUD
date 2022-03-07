@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { updateTodo } from "../action/todoRequest.js";
+import { updateTodo, updateStatusTodo } from "../action/todoRequest.js";
 
-export const Todo = ({ onDelete, isDone, onComplete, title, id }) => {
+export const Todo = ({ onDelete, todo }) => {
   const [editable, setEditabe] = useState(false);
-  const [todoText, setTodoText] = useState(title);
+  const [taskStatus, setTaskStatus] = useState(todo.isDone);
+  const [todoText, setTodoText] = useState(todo.title);
   const ref = useRef(null);
 
   const todoTextHandler = (e) => {
@@ -22,23 +23,28 @@ export const Todo = ({ onDelete, isDone, onComplete, title, id }) => {
 
   const updateHandler = () => {
     setEditabe(false);
-    updateTodo(id, todoText);
+    updateTodo(todo.id, todoText);
   };
 
   const keyPressHandler = (e) => {
     if (e.key === "Enter" && editable) {
       setEditabe(false);
-      updateTodo(id, todoText);
+      updateTodo(todo.id, todoText);
     }
+  };
+
+  const completedHandler = () => {
+    setTaskStatus((todo.isDone = !todo.isDone));
+    updateStatusTodo(todo.id);
   };
 
   return (
     <div className={"todo"}>
       <input
-        onClick={onComplete}
+        onClick={completedHandler}
         className={`toggle-completed`}
         type="checkbox"
-        checked={isDone}
+        checked={taskStatus}
         readOnly
       />
       <div className="todo-container">
@@ -49,18 +55,18 @@ export const Todo = ({ onDelete, isDone, onComplete, title, id }) => {
             value={todoText}
             onKeyDown={keyPressHandler}
             onBlur={updateHandler}
-            className={`todo-text ${isDone ? "completed" : ""}`}
+            className={`todo-text ${taskStatus ? "completed" : ""}`}
           />
         ) : (
           <div
             onDoubleClick={doubleClickHandler}
-            className={`todo-text ${isDone ? "completed" : ""}`}
+            className={`todo-text ${taskStatus ? "completed" : ""}`}
           >
             {todoText}
           </div>
         )}
 
-        <button onClick={() => onDelete(id)} className="delete">
+        <button onClick={() => onDelete(todo.id)} className="delete">
           X
         </button>
       </div>

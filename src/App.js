@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.scss";
 import Form from "./components/Form";
-import TodoList from "./components/TodoList";
+// import TodoList from "./components/TodoList";
+import Todo from "./components/Todo";
+
 import {
   fetchTodos,
   removeTodo,
@@ -9,7 +11,7 @@ import {
   deleteDone,
 } from "./action/todoRequest.js";
 
-const TodoStatus = {
+const todoStatus = {
   ALL: "ALL",
   IS_DONE: "IS_DONE",
   ACTIVE: "ACTIVE",
@@ -18,7 +20,7 @@ const TodoStatus = {
 function App() {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
-  const [status, setStatus] = useState(TodoStatus.ALL);
+  const [status, setStatus] = useState(todoStatus.ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
 
   useEffect(() => {
@@ -31,10 +33,10 @@ function App() {
 
   const filterHandler = () => {
     switch (status) {
-      case TodoStatus.IS_DONE:
+      case todoStatus.IS_DONE:
         setFilteredTodos(() => todos.filter((todo) => todo.isDone === true));
         break;
-      case TodoStatus.ACTIVE:
+      case todoStatus.ACTIVE:
         setFilteredTodos(() => todos.filter((todo) => todo.isDone === false));
         break;
 
@@ -47,32 +49,6 @@ function App() {
     removeTodo(id).then((i) =>
       setTodos(() => todos.filter((todo) => todo.id !== id))
     );
-  };
-
-  const completedHandler = (id) => {
-    setTodos((prevState) => {
-      updateStatusTodo(id);
-      return prevState.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            isDone: !item.isDone,
-          };
-        }
-        return item;
-      });
-    });
-  };
-
-  const checkAllHandler = () => {
-    let allCompleted = todos.every((item) => item.isDone);
-
-    const newTodos = todos.map((item) => {
-      updateStatusTodo(item.id);
-      return { ...item, isDone: !allCompleted };
-    });
-
-    setTodos(newTodos);
   };
 
   const clearCompletedHandler = () => {
@@ -97,20 +73,18 @@ function App() {
         filterHandler={filterHandler}
         status={status}
         setStatus={setStatus}
-        setCheckAll={checkAllHandler}
         clearCompletedHandler={clearCompletedHandler}
-        TodoStatus={TodoStatus}
+        todoStatus={todoStatus}
       />
 
-      <TodoList
-        todos={todos}
-        onDelete={todoDeleteHandler}
-        setTodos={setTodos}
-        inputText={inputText}
-        setInputText={setInputText}
-        filteredTodos={filteredTodos}
-        onComplete={completedHandler}
-      />
+      {filteredTodos.map((todo) => (
+        <Todo
+          key={todo.id}
+          todo={todo}
+          onDelete={todoDeleteHandler}
+          setInputText={setInputText}
+        />
+      ))}
     </div>
   );
 }

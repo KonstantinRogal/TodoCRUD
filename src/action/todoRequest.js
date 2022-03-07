@@ -8,10 +8,10 @@ export const fetchTodos = fetch(`${API_URL}/api/v1/todos`, {
     apikey: API_KEY,
   },
 })
-  .then(function (data) {
+  .then((data) => {
     return data.json();
   })
-  .then(function (data) {
+  .then((data) => {
     return data.map((todo) => {
       const { _id, ...restProps } = todo;
 
@@ -32,7 +32,7 @@ export const addTodo = (title) =>
     method: "POST",
     body: JSON.stringify({ title }),
   })
-    .then(function (data) {
+    .then((data) => {
       return data.json();
     })
     .catch((err) => {
@@ -48,7 +48,7 @@ export const removeTodo = (id) =>
     },
     method: "DELETE",
   })
-    .then(function (data) {
+    .then((data) => {
       return data.json();
     })
     .catch((err) => {
@@ -65,7 +65,7 @@ export const updateTodo = (id, title) => {
     method: "PUT",
     body: JSON.stringify({ title }),
   })
-    .then(function (data) {
+    .then((data) => {
       return data.json();
     })
     .catch((err) => {
@@ -81,9 +81,16 @@ export const updateStatusTodo = (id) => {
       apikey: API_KEY,
     },
     method: "PUT",
-  }).catch((err) => {
-    console.log(new Error(err));
-  });
+  })
+    .then((response) => {
+      response.json();
+      if (response.ok) {
+        return id;
+      }
+    })
+    .catch((err) => {
+      console.log(new Error(err));
+    });
 };
 
 export const deleteDone = () => {
@@ -94,7 +101,12 @@ export const deleteDone = () => {
       apikey: API_KEY,
     },
     method: "DELETE",
-  }).catch((err) => {
-    console.log(new Error(err));
-  });
+  })
+    .then((response) => {
+      return response.json();
+    })
+
+    .catch((err) => {
+      console.log(new Error(err));
+    });
 };

@@ -1,5 +1,6 @@
 import React from "react";
-import { addTodo } from "../action/todoRequest.js";
+import { addTodo, updateStatusTodo } from "../action/todoRequest.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const Form = ({
   inputText,
@@ -8,16 +9,15 @@ export const Form = ({
   setTodos,
   setStatus,
   status,
-  setCheckAll,
   clearCompletedHandler,
-  TodoStatus,
+  todoStatus,
 }) => {
   const inputTextHandler = (e) => {
     setInputText(e.target.value);
   };
 
   const submitTodoHandler = (e) => {
-    const newTodo = { title: inputText, isDone: false, id: Date.now() };
+    const newTodo = { title: inputText, isDone: false, id: uuidv4() };
 
     setTodos([...todos, newTodo]);
     setInputText("");
@@ -37,10 +37,28 @@ export const Form = ({
 
   let leftItems = todos.filter((item) => item.isDone !== true);
 
+  const checkAllHandler = () => {
+    if (todos.every((item) => item.isDone)) {
+      const newTodos = todos.map((item) => {
+        updateStatusTodo(item.id);
+        return { ...item, isDone: false };
+      });
+      setTodos(newTodos);
+    } else {
+      const newTodos = todos.map((element) => {
+        if (element.isDone === false) {
+          updateStatusTodo(element.id);
+        }
+        return { ...element, isDone: true };
+      });
+      setTodos(newTodos);
+    }
+  };
+
   return (
     <div className="form">
       <div className="form-wrapper">
-        <button onClick={setCheckAll} className="toggle-all">
+        <button onClick={checkAllHandler} className="toggle-all">
           Check all
         </button>
         <input
@@ -58,25 +76,25 @@ export const Form = ({
           <div className="todos-left">{leftItems.length} items left</div>
           <div onClick={statusHandler} className="filter-buttons">
             <button
-              value={TodoStatus.ALL}
+              value={todoStatus.ALL}
               className={`filter-button ${
-                status === TodoStatus.ALL ? "active" : ""
+                status === todoStatus.ALL ? "active" : ""
               }`}
             >
               All
             </button>
             <button
-              value={TodoStatus.ACTIVE}
+              value={todoStatus.ACTIVE}
               className={`filter-button ${
-                status === TodoStatus.ACTIVE ? "active" : ""
+                status === todoStatus.ACTIVE ? "active" : ""
               }`}
             >
               Active
             </button>
             <button
-              value={TodoStatus.IS_DONE}
+              value={todoStatus.IS_DONE}
               className={`filter-button ${
-                status === TodoStatus.IS_DONE ? "active" : ""
+                status === todoStatus.IS_DONE ? "active" : ""
               }`}
             >
               Completed
