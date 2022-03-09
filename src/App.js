@@ -49,7 +49,7 @@ function App() {
   };
 
   const todoDeleteHandler = (id) => {
-    removeTodo(id).then((i) =>
+    removeTodo(id).then(() =>
       setTodos(() => todos.filter((todo) => todo.id !== id))
     );
   };
