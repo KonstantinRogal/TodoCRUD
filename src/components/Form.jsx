@@ -24,7 +24,7 @@ export const Form = ({
     const newTodo = { title: inputText, isDone: false, id: uuidv4() };
 
     addTodo(newTodo.title).then(() => {
-      setTodos([...todos, newTodo]);
+      setTodos((prevTodos) => [...prevTodos, newTodo]);
       setInputText("");
     });
   };
@@ -39,26 +39,29 @@ export const Form = ({
     setStatus(e.target.value);
   };
 
+  const checkAllTodos = (prevTodos) =>
+    prevTodos.map((item) => {
+      updateStatusTodo(item.id);
+
+      return { ...item, isDone: false };
+    });
+
+  const uncheckAllTodos = (prevTodos) =>
+    prevTodos.map((element) => {
+      if (element.isDone === false) {
+        updateStatusTodo(element.id);
+      }
+
+      return { ...element, isDone: true };
+    });
+
   const checkAllHandler = () => {
-    if (todos.every((item) => item.isDone)) {
-      const newTodos = todos.map((item) => {
-        updateStatusTodo(item.id);
-
-        return { ...item, isDone: false };
-      });
-
-      setTodos(newTodos);
-    } else {
-      const newTodos = todos.map((element) => {
-        if (element.isDone === false) {
-          updateStatusTodo(element.id);
-        }
-
-        return { ...element, isDone: true };
-      });
-
-      setTodos(newTodos);
-    }
+    setTodos((prevTodos) => {
+      if (prevTodos.every((item) => item.isDone)) {
+        return checkAllTodos(prevTodos);
+      }
+      return uncheckAllTodos(prevTodos);
+    });
   };
 
   const clearCompletedHandler = () => {
