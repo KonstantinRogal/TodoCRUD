@@ -30,8 +30,12 @@ export const addTodo = (title) =>
     method: "POST",
     body: JSON.stringify({ title }),
   })
-    .then((data) => {
-      return data.json();
+    .then((response) => {
+      if (response.ok) {
+        return title;
+      } else if (!response.ok) {
+        throw new Error("Error!");
+      }
     })
     .catch((err) => {
       console.log(new Error(err));
@@ -64,14 +68,15 @@ export const updateTodo = (id, title) => {
 };
 
 export const updateStatusTodo = (id) => {
-  fetch(`${API_URL}/api/v1/todos/${id}/done`, {
+  return fetch(`${API_URL}/api/v1/todos/${id}/done`, {
     headers: headers,
     method: "PUT",
   })
     .then((response) => {
-      response.json();
       if (response.ok) {
         return id;
+      } else if (!response.ok) {
+        throw new Error("Error!");
       }
     })
     .catch((err) => {
@@ -85,7 +90,9 @@ export const deleteDone = () => {
     method: "DELETE",
   })
     .then((response) => {
-      return response.json();
+      if (!response.ok) {
+        throw new Error("Error!");
+      }
     })
 
     .catch((err) => {

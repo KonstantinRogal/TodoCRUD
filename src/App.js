@@ -15,7 +15,6 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [status, setStatus] = useState(todoFilter.ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
-  const [completedTodosAmount, setCompletedTodosAmount] = useState(0);
 
   useEffect(() => {
     getTodos();
@@ -23,16 +22,11 @@ function App() {
 
   useEffect(() => {
     filterHandler();
-    calculateLeftItemsAmount();
   }, [todos, status]);
 
-  const calculateLeftItemsAmount = () => {
-    setCompletedTodosAmount(
-      todos.filter((item) => {
-        return item.isDone !== true;
-      }).length
-    );
-  };
+  let completedTodosAmount = todos.filter(
+    (item) => item.isDone !== true
+  ).length;
 
   const filterHandler = () => {
     switch (status) {
@@ -60,6 +54,18 @@ function App() {
     });
   };
 
+  const statusUpdateHandler = (id, status) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((item) => {
+        if (item.id === id) {
+          return { ...item, isDone: status };
+        }
+
+        return item;
+      })
+    );
+  };
+
   return (
     <div className="App">
       <h1>Todo</h1>
@@ -78,7 +84,7 @@ function App() {
           key={todo.id}
           todo={todo}
           onDelete={todoDeleteHandler}
-          calculateLeftItemsAmount={calculateLeftItemsAmount}
+          onStatusUpdate={statusUpdateHandler}
         />
       ))}
     </div>

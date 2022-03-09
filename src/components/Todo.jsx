@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { updateTodo, updateStatusTodo } from "../action/todoRequest.js";
 
-export const Todo = ({ onDelete, todo, calculateLeftItemsAmount }) => {
+export const Todo = ({
+  onDelete,
+  todo,
+  calculateLeftItemsAmount,
+  onStatusUpdate,
+}) => {
   const [editable, setEditabe] = useState(false);
   const [todoText, setTodoText] = useState(todo.title);
   const ref = useRef(null);
@@ -11,7 +16,7 @@ export const Todo = ({ onDelete, todo, calculateLeftItemsAmount }) => {
   };
 
   useEffect(() => {
-    if (ref.current !== null && editable === true) {
+    if (ref.current !== null && editable) {
       ref.current.focus();
     }
   }, [editable]);
@@ -33,9 +38,10 @@ export const Todo = ({ onDelete, todo, calculateLeftItemsAmount }) => {
   };
 
   const completedHandler = () => {
-    todo.isDone = !todo.isDone;
-    updateStatusTodo(todo.id);
-    calculateLeftItemsAmount();
+    updateStatusTodo(todo.id).then(() => {
+      onStatusUpdate(todo.id, !todo.isDone);
+      calculateLeftItemsAmount();
+    });
   };
 
   return (

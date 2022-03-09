@@ -9,8 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 export const Form = ({
   todos,
   setTodos,
-  setStatus,
   status,
+  setStatus,
   todoFilter,
   completedTodosAmount,
 }) => {
@@ -20,13 +20,13 @@ export const Form = ({
     setInputText(e.target.value);
   };
 
-  const submitTodoHandler = (e) => {
+  const submitTodoHandler = () => {
     const newTodo = { title: inputText, isDone: false, id: uuidv4() };
 
-    setTodos([...todos, newTodo]);
-    setInputText("");
-
-    addTodo(newTodo.title);
+    addTodo(newTodo.title).then(() => {
+      setTodos([...todos, newTodo]);
+      setInputText("");
+    });
   };
 
   const handleKeyPress = (e) => {
@@ -43,23 +43,28 @@ export const Form = ({
     if (todos.every((item) => item.isDone)) {
       const newTodos = todos.map((item) => {
         updateStatusTodo(item.id);
+
         return { ...item, isDone: false };
       });
+
       setTodos(newTodos);
     } else {
       const newTodos = todos.map((element) => {
         if (element.isDone === false) {
           updateStatusTodo(element.id);
         }
+
         return { ...element, isDone: true };
       });
+
       setTodos(newTodos);
     }
   };
 
   const clearCompletedHandler = () => {
-    deleteDone();
-    setTodos(todos.filter((el) => el.isDone === false));
+    deleteDone().then(() => {
+      setTodos(todos.filter((el) => el.isDone === false));
+    });
   };
 
   return (
