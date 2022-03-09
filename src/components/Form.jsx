@@ -1,18 +1,21 @@
-import React from "react";
-import { addTodo, updateStatusTodo } from "../action/todoRequest.js";
+import React, { useState } from "react";
+import {
+  addTodo,
+  updateStatusTodo,
+  deleteDone,
+} from "../action/todoRequest.js";
 import { v4 as uuidv4 } from "uuid";
 
 export const Form = ({
-  inputText,
-  setInputText,
   todos,
   setTodos,
   setStatus,
   status,
-  clearCompletedHandler,
   todoFilter,
   completedTodosAmount,
 }) => {
+  const [inputText, setInputText] = useState("");
+
   const inputTextHandler = (e) => {
     setInputText(e.target.value);
   };
@@ -52,6 +55,11 @@ export const Form = ({
       });
       setTodos(newTodos);
     }
+  };
+
+  const clearCompletedHandler = () => {
+    deleteDone();
+    setTodos(todos.filter((el) => el.isDone === false));
   };
 
   return (

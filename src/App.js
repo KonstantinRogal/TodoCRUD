@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.scss";
 import Form from "./components/Form";
-// import TodoList from "./components/TodoList";
 import Todo from "./components/Todo";
 
-import { fetchTodos, removeTodo, deleteDone } from "./action/todoRequest.js";
+import { fetchTodos, removeTodo } from "./action/todoRequest.js";
 
 const todoFilter = {
   ALL: "ALL",
@@ -14,7 +13,6 @@ const todoFilter = {
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [inputText, setInputText] = useState("");
   const [status, setStatus] = useState(todoFilter.ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [completedTodosAmount, setCompletedTodosAmount] = useState(0);
@@ -56,11 +54,6 @@ function App() {
     );
   };
 
-  const clearCompletedHandler = () => {
-    deleteDone();
-    setTodos(todos.filter((el) => el.isDone === false));
-  };
-
   const getTodos = () => {
     fetchTodos.then((todos) => {
       return setTodos(todos);
@@ -73,12 +66,9 @@ function App() {
       <Form
         todos={todos}
         setTodos={setTodos}
-        inputText={inputText}
-        setInputText={setInputText}
         filterHandler={filterHandler}
         status={status}
         setStatus={setStatus}
-        clearCompletedHandler={clearCompletedHandler}
         todoFilter={todoFilter}
         completedTodosAmount={completedTodosAmount}
       />
@@ -88,7 +78,6 @@ function App() {
           key={todo.id}
           todo={todo}
           onDelete={todoDeleteHandler}
-          setInputText={setInputText}
           calculateLeftItemsAmount={calculateLeftItemsAmount}
         />
       ))}
