@@ -4,14 +4,9 @@ import Form from "./components/Form";
 // import TodoList from "./components/TodoList";
 import Todo from "./components/Todo";
 
-import {
-  fetchTodos,
-  removeTodo,
-  updateStatusTodo,
-  deleteDone,
-} from "./action/todoRequest.js";
+import { fetchTodos, removeTodo, deleteDone } from "./action/todoRequest.js";
 
-const todoStatus = {
+const todoFilter = {
   ALL: "ALL",
   IS_DONE: "IS_DONE",
   ACTIVE: "ACTIVE",
@@ -20,8 +15,9 @@ const todoStatus = {
 function App() {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
-  const [status, setStatus] = useState(todoStatus.ALL);
+  const [status, setStatus] = useState(todoFilter.ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
+  const [completedTodosAmount, setCompletedTodosAmount] = useState(0);
 
   useEffect(() => {
     getTodos();
@@ -29,14 +25,23 @@ function App() {
 
   useEffect(() => {
     filterHandler();
+    calculateLeftItemsAmount();
   }, [todos, status]);
+
+  const calculateLeftItemsAmount = () => {
+    setCompletedTodosAmount(
+      todos.filter((item) => {
+        return item.isDone !== true;
+      }).length
+    );
+  };
 
   const filterHandler = () => {
     switch (status) {
-      case todoStatus.IS_DONE:
+      case todoFilter.IS_DONE:
         setFilteredTodos(() => todos.filter((todo) => todo.isDone === true));
         break;
-      case todoStatus.ACTIVE:
+      case todoFilter.ACTIVE:
         setFilteredTodos(() => todos.filter((todo) => todo.isDone === false));
         break;
 
@@ -74,7 +79,8 @@ function App() {
         status={status}
         setStatus={setStatus}
         clearCompletedHandler={clearCompletedHandler}
-        todoStatus={todoStatus}
+        todoFilter={todoFilter}
+        completedTodosAmount={completedTodosAmount}
       />
 
       {filteredTodos.map((todo) => (
@@ -83,6 +89,7 @@ function App() {
           todo={todo}
           onDelete={todoDeleteHandler}
           setInputText={setInputText}
+          calculateLeftItemsAmount={calculateLeftItemsAmount}
         />
       ))}
     </div>

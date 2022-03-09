@@ -10,7 +10,8 @@ export const Form = ({
   setStatus,
   status,
   clearCompletedHandler,
-  todoStatus,
+  todoFilter,
+  completedTodosAmount,
 }) => {
   const inputTextHandler = (e) => {
     setInputText(e.target.value);
@@ -31,11 +32,9 @@ export const Form = ({
     }
   };
 
-  const statusHandler = (e) => {
+  const filterHandler = (e) => {
     setStatus(e.target.value);
   };
-
-  let leftItems = todos.filter((item) => item.isDone !== true);
 
   const checkAllHandler = () => {
     if (todos.every((item) => item.isDone)) {
@@ -73,28 +72,28 @@ export const Form = ({
 
       {todos.length ? (
         <div className="filter">
-          <div className="todos-left">{leftItems.length} items left</div>
-          <div onClick={statusHandler} className="filter-buttons">
+          <div className="todos-left">{completedTodosAmount} items left</div>
+          <div onClick={filterHandler} className="filter-buttons">
             <button
-              value={todoStatus.ALL}
+              value={todoFilter.ALL}
               className={`filter-button ${
-                status === todoStatus.ALL ? "active" : ""
+                status === todoFilter.ALL ? "active" : ""
               }`}
             >
               All
             </button>
             <button
-              value={todoStatus.ACTIVE}
+              value={todoFilter.ACTIVE}
               className={`filter-button ${
-                status === todoStatus.ACTIVE ? "active" : ""
+                status === todoFilter.ACTIVE ? "active" : ""
               }`}
             >
               Active
             </button>
             <button
-              value={todoStatus.IS_DONE}
+              value={todoFilter.IS_DONE}
               className={`filter-button ${
-                status === todoStatus.IS_DONE ? "active" : ""
+                status === todoFilter.IS_DONE ? "active" : ""
               }`}
             >
               Completed

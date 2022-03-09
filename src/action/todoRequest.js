@@ -1,12 +1,14 @@
 const API_URL = "https://exceed-todo-list.herokuapp.com";
 const API_KEY = "6cbde027-1bf2-488b-bd9a-c0e004eef164";
 
+let headers = {
+  "Content-type": "application/json",
+  charset: "UTF-8",
+  apikey: API_KEY,
+};
+
 export const fetchTodos = fetch(`${API_URL}/api/v1/todos`, {
-  headers: {
-    "Content-type": "application/json",
-    charset: "UTF-8",
-    apikey: API_KEY,
-  },
+  headers: headers,
 })
   .then((data) => {
     return data.json();
@@ -24,11 +26,7 @@ export const fetchTodos = fetch(`${API_URL}/api/v1/todos`, {
 
 export const addTodo = (title) =>
   fetch(`${API_URL}/api/v1/todos`, {
-    headers: {
-      "Content-type": "application/json",
-      charset: "UTF-8",
-      apikey: API_KEY,
-    },
+    headers: headers,
     method: "POST",
     body: JSON.stringify({ title }),
   })
@@ -41,11 +39,7 @@ export const addTodo = (title) =>
 
 export const removeTodo = (id) =>
   fetch(`${API_URL}/api/v1/todos/${id}`, {
-    headers: {
-      "Content-type": "application/json",
-      charset: "UTF-8",
-      apikey: API_KEY,
-    },
+    headers: headers,
     method: "DELETE",
   })
     .then((data) => {
@@ -57,11 +51,7 @@ export const removeTodo = (id) =>
 
 export const updateTodo = (id, title) => {
   fetch(`${API_URL}/api/v1/todos/${id}/title`, {
-    headers: {
-      "Content-type": "application/json",
-      charset: "UTF-8",
-      apikey: API_KEY,
-    },
+    headers: headers,
     method: "PUT",
     body: JSON.stringify({ title }),
   })
@@ -75,11 +65,7 @@ export const updateTodo = (id, title) => {
 
 export const updateStatusTodo = (id) => {
   fetch(`${API_URL}/api/v1/todos/${id}/done`, {
-    headers: {
-      "Content-type": "application/json",
-      charset: "UTF-8",
-      apikey: API_KEY,
-    },
+    headers: headers,
     method: "PUT",
   })
     .then((response) => {
@@ -95,11 +81,7 @@ export const updateStatusTodo = (id) => {
 
 export const deleteDone = () => {
   fetch(`${API_URL}/api/v1/todos/clear-done`, {
-    headers: {
-      "Content-type": "application/json",
-      charset: "UTF-8",
-      apikey: API_KEY,
-    },
+    headers: headers,
     method: "DELETE",
   })
     .then((response) => {
