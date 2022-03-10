@@ -5,7 +5,7 @@ import Todo from "./components/Todo";
 
 import { fetchTodos, removeTodo } from "./action/todoRequest.js";
 
-const todoFilter = {
+export const todoFilter = {
   ALL: "ALL",
   IS_DONE: "IS_DONE",
   ACTIVE: "ACTIVE",
@@ -23,10 +23,6 @@ function App() {
   useEffect(() => {
     filterHandler();
   }, [todos, status]);
-
-  let completedTodosAmount = todos.filter(
-    (item) => item.isDone !== true
-  ).length;
 
   const filterHandler = () => {
     switch (status) {
@@ -75,8 +71,6 @@ function App() {
         filterHandler={filterHandler}
         status={status}
         setStatus={setStatus}
-        todoFilter={todoFilter}
-        completedTodosAmount={completedTodosAmount}
       />
 
       {filteredTodos.map((todo) => (
@@ -92,3 +86,12 @@ function App() {
 }
 
 export default App;
+
+// import React from 'react'
+// import "./App.scss";
+
+// function App() {
+//   return <TodoApp />
+// }
+
+// export default App;

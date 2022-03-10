@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { todoFilter } from "../App.js";
 import {
   addTodo,
   updateStatusTodo,
@@ -6,14 +7,7 @@ import {
 } from "../action/todoRequest.js";
 import { v4 as uuidv4 } from "uuid";
 
-export const Form = ({
-  todos,
-  setTodos,
-  status,
-  setStatus,
-  todoFilter,
-  completedTodosAmount,
-}) => {
+export const Form = ({ todos, setTodos, status, setStatus }) => {
   const [inputText, setInputText] = useState("");
 
   const inputTextHandler = (e) => {
@@ -34,6 +28,10 @@ export const Form = ({
       submitTodoHandler();
     }
   };
+
+  let completedTodosAmount = todos.filter(
+    (item) => item.isDone !== true
+  ).length;
 
   const filterHandler = (e) => {
     setStatus(e.target.value);

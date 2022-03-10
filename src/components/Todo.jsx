@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { updateTodo, updateStatusTodo } from "../action/todoRequest.js";
 
-export const Todo = ({
-  onDelete,
-  todo,
-  calculateLeftItemsAmount,
-  onStatusUpdate,
-}) => {
+export const Todo = ({ onDelete, todo, onStatusUpdate }) => {
   const [editable, setEditabe] = useState(false);
   const [todoText, setTodoText] = useState(todo.title);
   const ref = useRef(null);
@@ -40,7 +35,6 @@ export const Todo = ({
   const completedHandler = () => {
     updateStatusTodo(todo.id).then(() => {
       onStatusUpdate(todo.id, !todo.isDone);
-      calculateLeftItemsAmount();
     });
   };
 
