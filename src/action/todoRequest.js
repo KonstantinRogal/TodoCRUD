@@ -7,22 +7,23 @@ let headers = {
   apikey: API_KEY,
 };
 
-export const fetchTodos = fetch(`${API_URL}/api/v1/todos`, {
-  headers: headers,
-})
-  .then((data) => {
-    return data.json();
+export const fetchTodos = () =>
+  fetch(`${API_URL}/api/v1/todos`, {
+    headers: headers,
   })
-  .then((data) => {
-    return data.map((todo) => {
-      const { _id, ...restProps } = todo;
+    .then((data) => {
+      return data.json();
+    })
+    .then((data) => {
+      return data.map((todo) => {
+        const { _id, ...restProps } = todo;
 
-      return { id: _id, ...restProps };
+        return { id: _id, ...restProps };
+      });
+    })
+    .catch((err) => {
+      console.log(new Error(err));
     });
-  })
-  .catch((err) => {
-    console.log(new Error(err));
-  });
 
 export const addTodo = (title) =>
   fetch(`${API_URL}/api/v1/todos`, {
@@ -53,7 +54,7 @@ export const removeTodo = (id) =>
       console.log(new Error(err));
     });
 
-export const updateTodo = (id, title) => {
+export const updateTodo = (id, title) =>
   fetch(`${API_URL}/api/v1/todos/${id}/title`, {
     headers: headers,
     method: "PUT",
@@ -65,10 +66,9 @@ export const updateTodo = (id, title) => {
     .catch((err) => {
       console.log(new Error(err));
     });
-};
 
-export const updateStatusTodo = (id) => {
-  return fetch(`${API_URL}/api/v1/todos/${id}/done`, {
+export const updateStatusTodo = (id) =>
+  fetch(`${API_URL}/api/v1/todos/${id}/done`, {
     headers: headers,
     method: "PUT",
   })
@@ -82,20 +82,22 @@ export const updateStatusTodo = (id) => {
     .catch((err) => {
       console.log(new Error(err));
     });
-};
 
-export const deleteDone = () => {
+export const deleteDone = () =>
   fetch(`${API_URL}/api/v1/todos/clear-done`, {
     headers: headers,
     method: "DELETE",
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Error!");
+      if (response.ok) {
+        const a = response.json();
+        console.log(555555, a);
+        return a;
       }
+
+      throw new Error("Error!");
     })
 
     .catch((err) => {
       console.log(new Error(err));
     });
-};

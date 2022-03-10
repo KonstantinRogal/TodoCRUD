@@ -9,7 +9,7 @@ export const TodoApp = () => {
   const [filteredTodos, setFilteredTodos] = useState([]);
 
   return (
-    <>
+    <div className="App">
       <h1>Todo</h1>
 
       <Form todos={todos} setTodos={setTodos} />
@@ -24,7 +24,7 @@ export const TodoApp = () => {
         todos={todos}
         setTodos={setTodos}
       />
-    </>
+    </div>
   );
 };
 

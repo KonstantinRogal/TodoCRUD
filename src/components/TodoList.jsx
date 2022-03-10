@@ -14,7 +14,7 @@ export const TodoList = ({ filteredTodos, todos, setTodos }) => {
   };
 
   const getTodos = () => {
-    fetchTodos.then((todos) => {
+    fetchTodos().then((todos) => {
       return setTodos(todos);
     });
   };
