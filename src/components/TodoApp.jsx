@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Form from "./Form";
 import Header from "./Header";
 import TodoList from "./TodoList";
-import "../App.scss";
 
 export const TodoApp = () => {
   const [todos, setTodos] = useState([]);

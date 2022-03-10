@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { addTodo, updateStatusTodo } from "../action/todoRequest";
+import { addTodo } from "../action/todoRequest";
 import { v4 as uuidv4 } from "uuid";
+import CheckAll from "./CheckAll";
 
 export const Form = ({ setTodos }) => {
   const [inputText, setInputText] = useState("");
@@ -24,37 +25,10 @@ export const Form = ({ setTodos }) => {
     }
   };
 
-  const checkAllTodos = (prevTodos) =>
-    prevTodos.map((item) => {
-      updateStatusTodo(item.id);
-
-      return { ...item, isDone: false };
-    });
-
-  const uncheckAllTodos = (prevTodos) =>
-    prevTodos.map((element) => {
-      if (element.isDone === false) {
-        updateStatusTodo(element.id);
-      }
-
-      return { ...element, isDone: true };
-    });
-
-  const checkAllHandler = () => {
-    setTodos((prevTodos) => {
-      if (prevTodos.every((item) => item.isDone)) {
-        return checkAllTodos(prevTodos);
-      }
-      return uncheckAllTodos(prevTodos);
-    });
-  };
-
   return (
     <div className="form">
       <div className="form-wrapper">
-        <button onClick={checkAllHandler} className="toggle-all">
-          Check all
-        </button>
+        <CheckAll setTodos={setTodos} />
         <input
           value={inputText}
           onChange={inputTextHandler}

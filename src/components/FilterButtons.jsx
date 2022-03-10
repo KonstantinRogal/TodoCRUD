@@ -1,17 +1,9 @@
 import React from "react";
 
-export const FilterButtons = ({
-  status,
-  setStatus,
-  todos,
-  setFilteredTodos,
-  todoFilter,
-}) => {
+export const FilterButtons = ({ status, setStatus, todos, todoFilter }) => {
   const filterButtonsHandler = (e) => {
     setStatus(e.target.value);
   };
-
-  console.log(todos, "hhhhhhhhhhhh");
 
   return (
     <>

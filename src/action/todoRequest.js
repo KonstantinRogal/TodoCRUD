@@ -34,9 +34,8 @@ export const addTodo = (title) =>
     .then((response) => {
       if (response.ok) {
         return title;
-      } else if (!response.ok) {
-        throw new Error("Error!");
       }
+      throw new Error("Error!");
     })
     .catch((err) => {
       console.log(new Error(err));
@@ -75,9 +74,8 @@ export const updateStatusTodo = (id) =>
     .then((response) => {
       if (response.ok) {
         return id;
-      } else if (!response.ok) {
-        throw new Error("Error!");
       }
+      throw new Error("Error!");
     })
     .catch((err) => {
       console.log(new Error(err));
