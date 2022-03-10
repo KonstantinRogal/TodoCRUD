@@ -2,12 +2,23 @@ import React from "react";
 import { updateStatusTodo } from "../action/todoRequest";
 
 export const CheckAll = ({ setTodos }) => {
-  const uncheckAllTodos = (prevTodos) =>
-    prevTodos.map((item) => {
-      updateStatusTodo(item.id);
-
-      return { ...item, isDone: false };
+  const uncheckAllTodos = (prevTodos) => {
+    const promises = prevTodos.map((item) => {
+      return updateStatusTodo(item.id);
     });
+
+    Promise.all(promises).then((res) => {
+      return prevTodos.map((item) => {
+        if (res.includes(item.id)) {
+          return { ...item, isDone: false };
+        }
+
+        return item;
+      });
+    });
+
+    return prevTodos;
+  };
 
   const checkAllTodos = (prevTodos) =>
     prevTodos.map((element) => {
@@ -23,6 +34,7 @@ export const CheckAll = ({ setTodos }) => {
       if (prevTodos.every((item) => item.isDone)) {
         return uncheckAllTodos(prevTodos);
       }
+
       return checkAllTodos(prevTodos);
     });
   };
