@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import { todoFilter } from "../App.js";
-import {
-  addTodo,
-  updateStatusTodo,
-  deleteDone,
-} from "../action/todoRequest.js";
+import { addTodo, updateStatusTodo } from "../action/todoRequest";
 import { v4 as uuidv4 } from "uuid";
 
-export const Form = ({ todos, setTodos, status, setStatus }) => {
+export const Form = ({ setTodos }) => {
   const [inputText, setInputText] = useState("");
 
   const inputTextHandler = (e) => {
@@ -27,14 +22,6 @@ export const Form = ({ todos, setTodos, status, setStatus }) => {
     if (e.key === "Enter" && inputText !== "") {
       submitTodoHandler();
     }
-  };
-
-  let completedTodosAmount = todos.filter(
-    (item) => item.isDone !== true
-  ).length;
-
-  const filterHandler = (e) => {
-    setStatus(e.target.value);
   };
 
   const checkAllTodos = (prevTodos) =>
@@ -62,12 +49,6 @@ export const Form = ({ todos, setTodos, status, setStatus }) => {
     });
   };
 
-  const clearCompletedHandler = () => {
-    deleteDone().then(() => {
-      setTodos(todos.filter((el) => el.isDone === false));
-    });
-  };
-
   return (
     <div className="form">
       <div className="form-wrapper">
@@ -83,41 +64,6 @@ export const Form = ({ todos, setTodos, status, setStatus }) => {
           placeholder="I need..."
         />
       </div>
-
-      {todos.length ? (
-        <div className="filter">
-          <div className="todos-left">{completedTodosAmount} items left</div>
-          <div onClick={filterHandler} className="filter-buttons">
-            <button
-              value={todoFilter.ALL}
-              className={`filter-button ${
-                status === todoFilter.ALL ? "active" : ""
-              }`}
-            >
-              All
-            </button>
-            <button
-              value={todoFilter.ACTIVE}
-              className={`filter-button ${
-                status === todoFilter.ACTIVE ? "active" : ""
-              }`}
-            >
-              Active
-            </button>
-            <button
-              value={todoFilter.IS_DONE}
-              className={`filter-button ${
-                status === todoFilter.IS_DONE ? "active" : ""
-              }`}
-            >
-              Completed
-            </button>
-          </div>
-          <button onClick={clearCompletedHandler} className="clear-completed">
-            Clear completed
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 };
